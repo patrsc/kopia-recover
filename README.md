@@ -40,3 +40,5 @@ Run:
 ```
 poetry run python rebuild_blob.py <your-blob-id>
 ```
+
+The file will be saved to `temp/recovered-blobs`. You can now upload this file to your kopia repo.
