@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "kopia-recover"
+version = "0.1.0"
+description = "Python tool to recover broken or missing kopia pack file BLOBs."
+authors = ["Patrick <patrsc@nubu.at>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "kopia"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pycryptodome = "^3.21.0"
+cryptography = "^44.0.0"
+python-dateutil = "^2.9.0.post0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.8.0"
+isort = "^5.13.2"
+pylint = "^3.0.3"
+ruff = "^0.1.14"
+black = "^24.1.1"
+flake8 = "^7.0.0"
+pytest = "^8.0.0"
+flake8-pyproject = "^1.2.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+line_length = 100
+
+[tool.ruff]
+line-length = 100
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.black]
+line-length = 100
+
+[tool.flake8]
+max-line-length = 100
