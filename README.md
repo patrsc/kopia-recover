@@ -7,7 +7,7 @@ Python tool to recover broken or missing kopia pack file BLOBs.
 Limitations:
 * Compression feature not implemented: will not work for pack file BLOBs that have compressed blocks inside
 * Only hash BLAKE2B-256-128 implemented
-* Only encryptio algorithm AES256-GCM-HMAC-SHA256 implemented
+* Only encryption algorithm AES256-GCM-HMAC-SHA256 implemented
 
 ## Usage
 
