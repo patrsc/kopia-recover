@@ -106,7 +106,7 @@ def rebuild_pack_content(blob_id, index, p: EncryptionData, metadata=None) -> li
     assert header_len == fixed_header_len, "only support fixed length random header (preamble)"
 
     # Random preamble
-    preamble = metadata['random_header']
+    preamble = metadata['random_header'] or token_bytes(RANDOM_PREAMBLE_LENGTH)
     to_write = [preamble]
 
     # Encrypted data blocks
