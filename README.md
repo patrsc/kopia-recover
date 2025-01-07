@@ -17,11 +17,26 @@ Limitations:
 2. Install Python 3.11
 3. Install Poetry
 4. Run `poetry install`
+5. Kopia-CLI must be installed and available via the `kopia` command
 
 ### Step 2: Recover blocks
 
-TODO
+Recover all blocks contained in pack BLOB according to the global index.
+
+Edit the variables in `recover_blocks.py` according to your needs.
+
+Run:
+
+```
+poetry run python recover_blocks.py
+```
 
 ### Step 3: Rebuild pack file (BLOB)
 
-TODO
+Rebuild the blob.
+
+Run:
+
+```
+poetry run python rebuild_blob.py <your-blob-id>
+```
