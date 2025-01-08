@@ -48,6 +48,8 @@ poetry run python recover_blocks.py p737530c3e328c15957c7ab4abd1cd0a7-s444948145
   Documents Pictures/Personal
 ```
 
+Recovered blocks are saved to `temp/recovered-blocks`. Your kopia repository will not be modified.
+
 ### Step 3: Rebuild pack file (BLOB)
 
 To rebuild the BLOB (pack file), run:
@@ -56,8 +58,8 @@ To rebuild the BLOB (pack file), run:
 poetry run python rebuild_blob.py <your-blob-id>
 ```
 
-The file will be saved to `temp/recovered-blobs`. You can now upload this file to your kopia repo.
-**Make a backup of any file that you might overwrite**.
+The file will be saved to `temp/recovered-blobs`. Your kopia repository will not be modified.
+You can now upload this file to your kopia repo, but **make a backup copy of any file that you might overwrite**.
 
 Note: You will be asked to enter the repository password, which is required to rebuild the pack file
 correctly (since it needs to encrypt blocks). If you feel uncomfortable entering the password in an
