@@ -2,7 +2,13 @@
 
 Python tool to recover broken or missing kopia pack file BLOBs.
 
-**EXPERIMENTAL!!!** Be cautious when using this! Make backups of any BLOBs that you replace in your kopia repository! This is a proof of concept, code is quick and dirty.
+> [!CAUTION]
+> **Experimental!**
+> This tool is highly experimental! Be cautious when using it!
+> Make backups of any files that you replace in your kopia repository!
+
+> [!WARNING]
+> This is a proof of concept, the code is quick and dirty.
 
 Limitations:
 * Compression feature not implemented: will not work for pack file BLOBs that have compressed blocks inside
@@ -33,12 +39,11 @@ poetry run python recover_blocks.py
 
 ### Step 3: Rebuild pack file (BLOB)
 
-Rebuild the blob.
-
-Run:
+Rebuild the blob by running:
 
 ```
 poetry run python rebuild_blob.py <your-blob-id>
 ```
 
 The file will be saved to `temp/recovered-blobs`. You can now upload this file to your kopia repo.
+**Make a backup of any file that you might overwrite**.
