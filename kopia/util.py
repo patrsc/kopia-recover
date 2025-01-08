@@ -27,6 +27,8 @@ def create_temp_dirs():
             os.makedirs(d)
 
 def get_sub_path_id(root_id, path):
+    if path == ".":
+        return root_id
     sub_id = root_id
     for item in path.split('/'):
         c = get_content(sub_id)

@@ -1,13 +1,30 @@
+"""Recover blocks inside BLOB.
+
+Usage: recover_blocks.py <your-blob-id> <source-dir> <root-dir-id> <subpaths>...
+"""
+import sys
+
 from kopia.recovery import recover_blocks
 
-# Edit these values
-blob_id = "p737530c3e328c15957c7ab4abd1cd0a7-s4449481459c2ea6a21f"
-root_dir_id = "kb1d60ad62d9f988465616b4f583c5a8d"  # root object of snapshot
-source_dir = "/Users/patrick"  # source dir of snapshot
-# sub-dirs to search within snapshot root dir
-dirs = [
-    "Documents",
-    "Pictures",
-]
 
-recover_blocks(blob_id, root_dir_id, source_dir, dirs)
+def main():
+    """Run block recovery."""
+    blob_id = sys.argv[1]
+    source_dir = sys.argv[2]  # source dir of snapshot
+    root_dir_id = sys.argv[3]  # root object of snapshot
+    dirs = sys.argv[4:]  # sub-dirs to search within snapshot root dir
+
+    print(f"BLOB ID: {blob_id}")
+    print(f"Snapshot source directory: {source_dir}")
+    print(f"Snapshot root object ID: {root_dir_id}")
+    if len(dirs) == 0:
+        print("Search in: all snapshot subdirectories")
+    else:
+        print("Search in subdirectories:")
+        for d in dirs:
+            print(f" - {d}")
+
+    recover_blocks(blob_id, root_dir_id, source_dir, dirs)
+
+
+main()

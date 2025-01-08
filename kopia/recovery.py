@@ -34,6 +34,7 @@ def find_blocks(root_dir_id, dirs, blocks_to_find):
 
 def find_blocks_in_dirs(root_dir_id, dir_paths, blocks_to_find):
     found_blocks = {}
+    dir_paths = dir_paths if len(dir_paths) > 0 else ["."]
     for dir_path in dir_paths:
         if len(blocks_to_find) == 0:
             break
