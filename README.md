@@ -70,3 +70,8 @@ Afterwards you should verify the repository consistency:
 ```
 kopia snapshot verify --verify-files-percent=100
 ```
+
+## See also
+
+* [Recover missing or invalid BLOBs in the repository](https://github.com/kopia/kopia/issues/4332):
+  Feature request to add this functionality directly in Kopia
