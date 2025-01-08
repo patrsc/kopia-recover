@@ -62,3 +62,9 @@ The file will be saved to `temp/recovered-blobs`. You can now upload this file t
 Note: You will be asked to enter the repository password, which is required to rebuild the pack file
 correctly (since it needs to encrypt blocks). If you feel uncomfortable entering the password in an
 unknown tool, don't enter it, or review its source code.
+
+Afterwards you should verify the repository consistency:
+
+```
+kopia snapshot verify --verify-files-percent=100
+```
