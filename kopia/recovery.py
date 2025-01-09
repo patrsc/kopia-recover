@@ -21,7 +21,8 @@ def find_blocks(root_dir_id, dirs, blocks_to_find):
     """Find blocks in saved blocks and in given dirs (saves them for future use)."""
     found_blocks = read_saved_blocks()
     for item in found_blocks:
-        blocks_to_find.remove(item)
+        if item in blocks_to_find:
+            blocks_to_find.remove(item)
     if len(blocks_to_find) > 0:
         new_found_blocks = find_blocks_in_dirs(root_dir_id, dirs, blocks_to_find)
         save_found_blocks(new_found_blocks)
