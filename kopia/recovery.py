@@ -4,7 +4,8 @@ import json
 
 from .util import (
     get_content, get_sub_path_id, fetch_all_contents, FOUND_BLOCKS_DIR, RECOVERED_BLOCKS_DIR,
-    DOWNLOADED_BLOBS_DIR, download_blob, get_index_by_blob, get_raw_content, read_json
+    DOWNLOADED_BLOBS_DIR, download_blob, get_index_by_blob, get_raw_content, read_json,
+    get_index_map, get_pack_blob_set
 )
 
 
@@ -192,3 +193,51 @@ def recover_blocks(blob_id, root_dir_id, source_dir, dirs):
         print("could not recover all blocks in BLOB")
     else:
         print("success: recovered all blocks.")
+
+
+def find_missing_packs_in_dir(dir_path, dir_id, missing_packs=None, obj_to_pack=None, packs=None):
+    """Find missing packs."""
+    if missing_packs is None:
+        missing_packs = set()
+    if obj_to_pack is None:
+        obj_to_pack = get_index_map()
+    if packs is None:
+        packs = get_pack_blob_set()
+
+    content = get_content(dir_id)
+    indirect = []
+
+    print(f"looking in: {dir_path}")
+    dirs = []
+    for item in content['entries']:
+        name = item['name']
+        obj = item['obj']
+        path = os.path.join(dir_path, name)
+        t = item['type']
+        if t == "d":
+            dirs.append((path, obj))
+        elif obj.startswith('I'):
+            indirect_id = obj[1:]
+            indirect.append((indirect_id, path, obj))
+        else:
+            block_id = obj
+            pack = obj_to_pack[block_id]
+            if pack not in missing_packs and pack not in packs:
+                print(f"Found missing pack: {pack}")
+                missing_packs.add(pack)
+
+    c_all = fetch_all_contents([ind[0] for ind in indirect]) if len(indirect) > 0 else []
+    for c, (indirect_id, path, obj) in zip(c_all, indirect):
+        for indirect_entry in c['entries']:
+            block_id = indirect_entry['o']
+            pack = obj_to_pack[block_id]
+            if pack not in missing_packs and pack not in packs:
+                print(f"Found missing pack: {pack}")
+                missing_packs.add(pack)
+
+    for dir_p, dir_obj in dirs:
+        missing_packs = find_missing_packs_in_dir(
+            dir_p, dir_obj, missing_packs=missing_packs, obj_to_pack=obj_to_pack, packs=packs
+        )
+
+    return missing_packs

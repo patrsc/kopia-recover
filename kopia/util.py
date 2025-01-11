@@ -125,6 +125,25 @@ def download_blob(blob_id, file):
         f.write(result.stdout)
 
 
+def get_index_map() -> dict[str, str]:
+    """Returns a dict mapping from object/block ID (key) to pack ID (value).
+
+    Object IDs start with the characters 0-9 or a-f if they are blocks, or with k, m, x.
+    Pack IDs start with p or q.
+    """
+    obj_to_pack = {}
+    file = FULL_INDEX_FILE
+    if not os.path.isfile(file):
+        download_full_index(file)
+    with open(file, encoding='utf-8') as f:
+        for line in f:
+            items = line.split(" ")
+            obj = items[4]
+            pack = items[9]
+            obj_to_pack[obj] = pack
+    return obj_to_pack
+
+
 def get_repo_config():
     blob_id = 'kopia.repository'
     file = REPO_CONFIG
