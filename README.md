@@ -75,3 +75,22 @@ kopia snapshot verify --verify-files-percent=100
 
 * [Recover missing or invalid BLOBs in the repository](https://github.com/kopia/kopia/issues/4332):
   Feature request to add this functionality directly in Kopia
+
+## Other useful scripts
+
+### Find missing BLOBs
+
+If a kopia repository has multiple missing BLOB pack files it can be tedious to run
+`kopia snapshot verify --verify-files-percent=100` over and over again until all missing BLOBs were identified (because after it finds one missing BLOB it will stop).
+
+To find missing pack BLOB files in the repository by going through all objects of one snapshot, you can run:
+
+```
+poetry run python find_missing_packs.py <snapshot-root-dir-id> [<sub-dir-path>]
+```
+
+where:
+* `<snapshot-root-dir-id>`: is the ID of a snapshot's root object (visible in Kopia UI), e.g. `kb1d60ad62d9f988465616b4f583c5a8d`
+* `<sub-dir-path>` (optional): the sub directory where search should start (root directory if omitted), e.g. `Documents/Finance`
+
+This can be helpful because `kopia snapshot verify --verify-files-percent=100` reports only one missing BLOB pack file at a time. This will report all missing BLOB pack files at once in a given snapshot.
