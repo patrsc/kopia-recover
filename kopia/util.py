@@ -129,6 +129,10 @@ def get_repo_config():
     file = REPO_CONFIG
     if not os.path.isfile(file):
         download_blob(blob_id, file)
+    return read_json(file)
+
+
+def read_json(file):
     with open(file, encoding='utf-8') as f:
         return json.load(f)
 

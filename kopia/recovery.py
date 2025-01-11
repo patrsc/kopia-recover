@@ -4,7 +4,7 @@ import json
 
 from .util import (
     get_content, get_sub_path_id, fetch_all_contents, FOUND_BLOCKS_DIR, RECOVERED_BLOCKS_DIR,
-    DOWNLOADED_BLOBS_DIR, download_blob, get_index_by_blob, get_raw_content
+    DOWNLOADED_BLOBS_DIR, download_blob, get_index_by_blob, get_raw_content, read_json
 )
 
 
@@ -124,8 +124,7 @@ def read_saved_blocks():
     for file in os.listdir(d):
         path = os.path.join(d, file)
         try:
-            with open(path, encoding='utf-8') as f:
-                data = json.load(f)
+            data = read_json(path)
         except Exception:
             print(f'warning: could not read file {path}')
         b = BlockInfo(**data)
