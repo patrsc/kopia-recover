@@ -9,6 +9,7 @@ RECOVERED_BLOCKS_DIR = f"{TEMP_DIR}/recovered-blocks"
 FOUND_BLOCKS_DIR = f"{TEMP_DIR}/found-blocks"
 FULL_INDEX_FILE = f"{TEMP_DIR}/index_full.txt"
 REPO_CONFIG = f"{TEMP_DIR}/repo.json"
+PACK_BLOB_LIST_FILE = f"{TEMP_DIR}/pack-blobs.json"
 
 
 def init():
@@ -145,6 +146,26 @@ def read_bytes(file: str, offset: int = 0, length: int = -1) -> bytes:
         if length >= 0 and len(data) != length:
             raise ValueError("could not read all required bytes.")
         return data
+
+
+def get_pack_blob_set() -> set[str]:
+    packs = get_pack_blob_list()
+    return set(p['id'] for p in packs)
+
+
+def get_pack_blob_list():
+    file = PACK_BLOB_LIST_FILE
+    if not os.path.isfile(file):
+        download_pack_blob_list(file)
+    return read_json(file)
+
+
+def download_pack_blob_list(file):
+    print(f"Downloading list of all pack files and save it to {file}. This might take a while...")
+    cmd = ["kopia", "blob", "list", "--prefix=p", "--json"]
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+    with open(file, 'w', encoding='utf-8') as f:
+        f.write(result.stdout)
 
 
 init()
