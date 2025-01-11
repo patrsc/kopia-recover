@@ -206,8 +206,9 @@ def find_missing_packs_in_dir(dir_path, dir_id, missing_packs=None, obj_to_pack=
 
     content = get_content(dir_id)
     indirect = []
+    n = len(missing_packs)
 
-    print(f"looking in: {dir_path}")
+    print(f"found {n} missing BLOBs so far, looking in: {dir_path}")
     dirs = []
     for item in content['entries']:
         name = item['name']
