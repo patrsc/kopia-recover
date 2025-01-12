@@ -1,6 +1,8 @@
 import json
 import subprocess
 import os
+from datetime import timezone
+from dateutil import parser
 
 TEMP_DIR = "temp"
 DOWNLOADED_BLOBS_DIR = f"{TEMP_DIR}/downloaded-blobs"
@@ -132,6 +134,7 @@ def get_index_map() -> dict[str, str]:
     Pack IDs start with p or q.
     """
     obj_to_pack = {}
+    obj_to_times: dict[str, int] = {}
     file = FULL_INDEX_FILE
     if not os.path.isfile(file):
         download_full_index(file)
@@ -140,7 +143,11 @@ def get_index_map() -> dict[str, str]:
             items = line.split(" ")
             obj = items[4]
             pack = items[9]
-            obj_to_pack[obj] = pack
+            t_d, t_t, t_tz = items[0:3]
+            t = to_unix_time(" ".join([t_d, t_t, t_tz]))
+            if t > obj_to_times.get(obj, 0):  # add only if index time is newer
+                obj_to_pack[obj] = pack
+                obj_to_times[obj] = t
     return obj_to_pack
 
 
@@ -185,6 +192,18 @@ def download_pack_blob_list(file):
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
     with open(file, 'w', encoding='utf-8') as f:
         f.write(result.stdout)
+
+
+def to_unix_time(timestamp_str: str) -> int:
+    # Parse the timestamp with timezone using dateutil.parser
+    dt_with_tz = parser.parse(timestamp_str)
+
+    # Convert to UTC
+    utc_dt = dt_with_tz.astimezone(timezone.utc)
+
+    # Get Unix timestamp (seconds since epoch)
+    unix_timestamp = int(utc_dt.timestamp())
+    return unix_timestamp
 
 
 init()

@@ -1,8 +1,7 @@
 """Local index."""
 import struct
 from dataclasses import dataclass
-from datetime import timezone
-from dateutil import parser
+from .util import to_unix_time
 
 VERSION2 = 2
 V2_INDEX_HEADER_SIZE = 17
@@ -331,15 +330,3 @@ def generate_entries(index_dict):
         }
         entries.append(entry)
     return entries
-
-
-def to_unix_time(timestamp_str: str) -> int:
-    # Parse the timestamp with timezone using dateutil.parser
-    dt_with_tz = parser.parse(timestamp_str)
-
-    # Convert to UTC
-    utc_dt = dt_with_tz.astimezone(timezone.utc)
-
-    # Get Unix timestamp (seconds since epoch)
-    unix_timestamp = int(utc_dt.timestamp())
-    return unix_timestamp
