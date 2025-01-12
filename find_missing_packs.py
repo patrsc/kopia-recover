@@ -13,7 +13,7 @@ from kopia.util import get_sub_path_id
 
 
 def main():
-    """Run."""
+    """Run find missing packs."""
     root_dir_id = sys.argv[1]
     dir_path = sys.argv[2] if len(sys.argv) > 2 else "."
 

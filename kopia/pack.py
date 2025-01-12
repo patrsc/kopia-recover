@@ -1,3 +1,4 @@
+"""Pack file related functions."""
 import os
 from secrets import token_bytes
 

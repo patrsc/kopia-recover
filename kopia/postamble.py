@@ -1,3 +1,4 @@
+"""Postamble after local index."""
 import struct
 import zlib
 

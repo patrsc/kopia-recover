@@ -1,3 +1,4 @@
+"""Cryptography-related functions."""
 from dataclasses import dataclass
 import hashlib
 import json
@@ -119,11 +120,13 @@ def decrypt_kopia_repository(repo_data, verbose=False) -> EncryptionData:
 
 
 def blake2b_hash(data, hmac_secret):
+    """BLAKE2b hash of bytes."""
     h = hashlib.blake2b(data, key=hmac_secret, digest_size=32)
     return h.digest()[:16]
 
 
 def blake2b_hash_file(file_path, hmac_secret):
+    """BLAKE2b hash of a file."""
     return blake2b_hash(read_bytes(file_path), hmac_secret)
 
 

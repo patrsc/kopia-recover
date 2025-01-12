@@ -1,3 +1,4 @@
+"""Recovery functions."""
 from dataclasses import dataclass, asdict
 import os
 import json
@@ -11,6 +12,8 @@ from .util import (
 
 @dataclass
 class BlockInfo:
+    """Block informations."""
+
     block_id: str
     object_id: str
     object_path: str
@@ -35,6 +38,7 @@ def find_blocks(root_dir_id, dirs, blocks_to_find):
 
 
 def find_blocks_in_dirs(root_dir_id, dir_paths, blocks_to_find):
+    """Find blocks in a list of source directories."""
     found_blocks = {}
     dir_paths = dir_paths if len(dir_paths) > 0 else ["."]
     for dir_path in dir_paths:
@@ -47,6 +51,7 @@ def find_blocks_in_dirs(root_dir_id, dir_paths, blocks_to_find):
 
 
 def find_blocks_in_dir(dir_path, dir_id, blocks_to_find, found_blocks=None):
+    """Find blocks in a source directory."""
     if found_blocks is None:
         found_blocks = {}
 
@@ -114,12 +119,15 @@ def find_blocks_in_dir(dir_path, dir_id, blocks_to_find, found_blocks=None):
 
 
 def save_found_blocks(found_blocks):
+    """Save found blocks to files."""
     for block, value in found_blocks.items():
         file = os.path.join(FOUND_BLOCKS_DIR, f"{block}.json")
         with open(file, 'w', encoding='utf-8') as f:
             json.dump(asdict(value), f, indent=4)
 
+
 def read_saved_blocks():
+    """Read saved blocks from files."""
     d = FOUND_BLOCKS_DIR
     blocks = {}
     for file in os.listdir(d):

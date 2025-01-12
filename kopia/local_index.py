@@ -278,6 +278,7 @@ def encode_index(index_dict: dict) -> bytes:
 
 
 def generate_local_index(blob_id, index_dict, random_suffix):
+    """Generate new local index."""
     entries = generate_entries(index_dict)
     return {
         "header": {
@@ -314,6 +315,7 @@ def verify_supported_index(index):
 
 
 def generate_entries(index_dict):
+    """Generate entries."""
     keys_sorted = sorted(index_dict.keys())
     entries = []
     for key in keys_sorted:
